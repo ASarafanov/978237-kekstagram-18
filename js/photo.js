@@ -106,10 +106,10 @@ var photoWindow = {
       element.querySelector('img').addEventListener('click', function (evt) {
         photoWindow.openPhoto(evt.target.parentNode.someDataAttr);
       });
-      element.querySelector('a').addEventListener('focus', function (evt) {
+      element.querySelector('a').addEventListener('focus', function () {
         document.addEventListener('keydown', photoWindow.onEnterDown);
       });
-      element.querySelector('a').addEventListener('blur', function (evt) {
+      element.querySelector('a').addEventListener('blur', function () {
         document.removeEventListener('keydown', photoWindow.onEnterDown);
       });
 
