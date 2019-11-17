@@ -34,6 +34,8 @@ var photoWindow = {
   description: undefined,
   socialCommentsCount: undefined,
   commentsLoader: undefined,
+  picturesBlock: undefined,
+  photoArray: undefined,
 
   getFirstPhoto: function (photoArray) {
     var photoObject = photoArray[0];
@@ -55,6 +57,7 @@ var photoWindow = {
     this.description = this.bigPicture.querySelector('.social__caption');
     this.socialCommentsCount = this.bigPicture.querySelector('.social__comment-count');
     this.commentsLoader = this.bigPicture.querySelector('.comments-loader');
+    this.picturesBlock = document.querySelector('.pictures');
   },
 
   deleteCommentsFunction: function (parentNode, nodesForDelete) {
@@ -63,10 +66,32 @@ var photoWindow = {
     }
   },
 
+  openPhoto: function (index) {
+    var photo = photoWindow.photoArray[index];
+    photoWindow.bigPicture.classList.remove('hidden');
+    photoWindow.updatePhotoInfo(photo);
+    var socialComments = photoWindow.bigPicture.querySelector('.social__comments');
+    var deleteComments = socialComments.querySelectorAll('li');
+    photoWindow.deleteCommentsFunction(socialComments, deleteComments);
+    photoWindow.showComments(photo, deleteComments[0], socialComments);
+    document.addEventListener('keydown', photoWindow.onEscDown);
+  },
+
+  onEscDown: function (evt) {
+    if (evt.keyCode === 27) {
+      photoWindow.closePopup();
+    }
+  },
+
+  onEnterDown: function (evt) {
+    if (evt.keyCode === 13) {
+      photoWindow.openPhoto(evt.target.someDataAttr);
+    }
+  },
+
   showPhotos: function (photoArray) {
     var template = document.querySelector('#picture');
     var content = template.content;
-    var picturesBlock = document.querySelector('.pictures');
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < photoArray.length; i++) {
       var photo = photoArray[i];
@@ -77,9 +102,20 @@ var photoWindow = {
       commentsSpan.textContent = photo.comments.length;
       var likesSpan = element.querySelector('.picture__likes');
       likesSpan.textContent = photo.likes;
+      element.querySelector('a').someDataAttr = i;
+      element.querySelector('img').addEventListener('click', function (evt) {
+        photoWindow.openPhoto(evt.target.parentNode.someDataAttr);
+      });
+      element.querySelector('a').addEventListener('focus', function () {
+        document.addEventListener('keydown', photoWindow.onEnterDown);
+      });
+      element.querySelector('a').addEventListener('blur', function () {
+        document.removeEventListener('keydown', photoWindow.onEnterDown);
+      });
+
       fragment.appendChild(element);
     }
-    picturesBlock.appendChild(fragment);
+    this.picturesBlock.appendChild(fragment);
   },
 
   getCommentsArray: function (arrayCount) {
@@ -114,6 +150,11 @@ var photoWindow = {
     return photoArray;
   },
 
+  closePopup: function () {
+    photoWindow.bigPicture.classList.add('hidden');
+    document.removeEventListener('keydown', photoWindow.onEscDown);
+  },
+
   showComments: function (photo, commentTemplate, place) {
     var commentsFragment = document.createDocumentFragment();
     for (var i = 0; i < photo.comments.length; i++) {
@@ -129,16 +170,18 @@ var photoWindow = {
 
   init: function () {
     this.findElemets();
-    var photoArray = this.generatePhotoArray(PHOTO_COUNT);
-    this.showPhotos(photoArray);
-    // this.bigPicture.classList.remove('hidden'); //TODO: В задани нужно работать с кнопкой загрузки изображений, из-за этого скрыли окно с фото
-    var photoObject = this.getFirstPhoto(photoArray);
-    this.updatePhotoInfo(photoObject);
-    var socialComments = this.bigPicture.querySelector('.social__comments');
-    var deleteComments = socialComments.querySelectorAll('li');
-    this.deleteCommentsFunction(socialComments, deleteComments);
-    this.showComments(photoObject, deleteComments[0], socialComments);
+    this.photoArray = this.generatePhotoArray(PHOTO_COUNT);
+    this.showPhotos(this.photoArray);
+    this.subscribeToEvents();
+  },
+
+  subscribeToEvents: function () {
+    var closeButton = this.bigPicture.querySelector('.big-picture__cancel');
+    closeButton.addEventListener('click', function () {
+      photoWindow.closePopup();
+    });
   }
+
 };
 
 var mainLogic = function () {
