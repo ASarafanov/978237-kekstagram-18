@@ -3,6 +3,7 @@
 
 var MAX_HASHTAG_COUNT = 5;
 var MAX_HASHTAG_LENGTH = 20;
+var MAX_COMMENTS_LENGTH = 140;
 
 var imageEditor = {
   previewImageSection: document.querySelector('.img-upload'),
@@ -22,6 +23,7 @@ var imageEditor = {
   effectLevelDepth: undefined,
   hashtagInput: undefined,
   buttonSubmit: undefined,
+  commentsInput: undefined,
 
   onEscClick: function (evt) {
     if (evt.keyCode === 27) {
@@ -92,6 +94,7 @@ var imageEditor = {
     this.effectLevelDepth = this.previewImageSection.querySelector('.effect-level__depth');
     this.hashtagInput = this.previewImageSection.querySelector('.text__hashtags');
     this.buttonSubmit = this.previewImageSection.querySelector('.img-upload__submit');
+    this.commentsInput = this.previewImageSection.querySelector('.text__description');
   },
 
   closePopup: function () {
@@ -146,6 +149,11 @@ var imageEditor = {
     return hashtag.length > MAX_HASHTAG_LENGTH;
   },
 
+  checkCommentsMaxLength: function (comment) {
+    return comment.length > MAX_COMMENTS_LENGTH;
+  },
+
+
   hashtagInputChanging: function () {
     var hashtagArray = imageEditor.hashtagInput.value.split(' ');
     imageEditor.hashtagInput.setCustomValidity('');
@@ -169,6 +177,14 @@ var imageEditor = {
         imageEditor.hashtagInput.setCustomValidity('максимальная длина одного хэш-тега должна быть не больше 20 символов, включая решётку');
       }
     });
+  },
+
+  commentsInputChanging: function () {
+
+    imageEditor.commentsInput.setCustomValidity('');
+    if (imageEditor.checkCommentsMaxLength(imageEditor.commentsInput.value)) {
+      imageEditor.commentsInput.setCustomValidity('длина комментария не может составлять больше 140 символов');
+    }
   },
 
 
@@ -209,6 +225,15 @@ var imageEditor = {
     });
     this.hashtagInput.addEventListener('blur', function () {
       imageEditor.hashtagInput.removeEventListener('keydown', onInputEscDown);
+    });
+    this.commentsInput.addEventListener('input', function () {
+      imageEditor.commentsInputChanging();
+    });
+    this.commentsInput.addEventListener('focus', function () {
+      imageEditor.commentsInput.addEventListener('keydown', onInputEscDown);
+    });
+    this.commentsInput.addEventListener('blur', function () {
+      imageEditor.commentsInput.removeEventListener('keydown', onInputEscDown);
     });
 
     this.subscribeToChangeEffect();
