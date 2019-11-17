@@ -13,6 +13,7 @@
   var effectLevel = previewImageSection.querySelector('.img-upload__effect-level');
   var effectLevelDepth = previewImageSection.querySelector('.effect-level__depth');
 
+  // Сделал правильное передвижение сразу
   var movePin = function (evt) {
     var rect = levelLine.getBoundingClientRect();
     var percentValue = (rect.right - rect.left) / 100;
