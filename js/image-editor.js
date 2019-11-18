@@ -2,23 +2,50 @@
 
 
 (function () {
+  var URL = 'https://js.dump.academy/kekstagram';
   var previewImageSection = document.querySelector('.img-upload');
   var previewImage = previewImageSection.querySelector('.img-upload__preview');
   var imageEditorDiv = previewImageSection.querySelector('.img-upload__overlay');
   var imageSelector = previewImageSection.querySelector('#upload-file');
   var closePopupButton = previewImageSection.querySelector('.img-upload__cancel');
+  var photoForm = previewImageSection.querySelector('.img-upload__form');
+  var main = document.querySelector('main');
 
-  var imageUpload = function () {
+  var onMouseClick = function () {
+    closeSuccessMenu();
+  };
+
+  var closeSuccessMenu = function () {
+    var successMenu = document.querySelector('.success');
+    main.removeChild(successMenu);
+    document.removeEventListener('keydown', onEscCloseSuccessMenu);
+    document.removeEventListener('click', onMouseClick);
+  };
+
+  var onEscCloseSuccessMenu = function (evt) {
+    if (evt.keyCode === window.util.ESC_KEYCODE) {
+      closeSuccessMenu();
+    }
+  };
+
+  var onSuccess = function () {
     var successTemplate = document.querySelector('#success');
     var element = successTemplate.content.cloneNode(true);
-    var main = document.querySelector('main');
+    document.addEventListener('keydown', onEscCloseSuccessMenu);
 
     closePopup();
-    var coolButton = element.querySelector('button');
-    coolButton.addEventListener('click', function (evt) {
-      main.removeChild(evt.target.parentElement.parentElement);
-    });
+    // var coolButton = element.querySelector('button');
+    document.addEventListener('click', onMouseClick);
     main.appendChild(element);
+  };
+
+  var onError = function (message) {
+    closePopup();
+    window.util.showError(message);
+  };
+
+  var imageUpload = function () {
+    window.network.postData(new FormData(photoForm), URL, onSuccess, onError);
   };
 
   var onEscClick = function (evt) {
@@ -46,7 +73,6 @@
     closePopupButton.addEventListener('click', function () {
       closePopup();
     });
-    var photoForm = previewImageSection.querySelector('.img-upload__form');
     photoForm.addEventListener('submit', function (evt) {
       imageUpload();
       evt.preventDefault();

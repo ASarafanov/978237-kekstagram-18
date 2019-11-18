@@ -46,15 +46,8 @@
     });
   };
 
-  var showError = function (errorMessage) {
-    var errorTemplate = document.querySelector('#error');
-    var element = errorTemplate.content.cloneNode(true);
-    var main = document.querySelector('main');
-    element.querySelector('.error__title').textContent = errorMessage;
-    main.appendChild(element);
-  };
 
-  window.network.getData(URL, showPhotos, showError);
+  window.network.getData(URL, showPhotos, window.util.showError);
 
 
 })();
