@@ -10,10 +10,39 @@
     return Math.floor(rand);
   };
 
+  var showError = function (errorMessage) {
+    var errorTemplate = document.querySelector('#error');
+    var element = errorTemplate.content.cloneNode(true);
+    var main = document.querySelector('main');
+    element.querySelector('.error__title').textContent = errorMessage;
+    document.addEventListener('keydown', onEscCloseErrorMenu);
+    document.addEventListener('click', onMouseClick);
+    main.appendChild(element);
+  };
+
+  var onMouseClick = function () {
+    closeErrorMenu();
+  };
+
+  var closeErrorMenu = function () {
+    var errorMenu = document.querySelector('.error');
+    var main = document.querySelector('main');
+    main.removeChild(errorMenu);
+    document.removeEventListener('keydown', onEscCloseErrorMenu);
+    document.removeEventListener('click', onMouseClick);
+  };
+
+  var onEscCloseErrorMenu = function (evt) {
+    if (evt.keyCode === window.util.ESC_KEYCODE) {
+      closeErrorMenu();
+    }
+  };
+
   window.util = {
     getRandomInt: getRandomInt,
     ESC_KEYCODE: ESC_KEYCODE,
-    ENTER_KEYCODE: ENTER_KEYCODE
+    ENTER_KEYCODE: ENTER_KEYCODE,
+    showError: showError
   };
 
 })();
