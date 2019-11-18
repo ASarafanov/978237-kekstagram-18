@@ -8,6 +8,19 @@
   var imageSelector = previewImageSection.querySelector('#upload-file');
   var closePopupButton = previewImageSection.querySelector('.img-upload__cancel');
 
+  var imageUpload = function () {
+    var successTemplate = document.querySelector('#success');
+    var element = successTemplate.content.cloneNode(true);
+    var main = document.querySelector('main');
+
+    closePopup();
+    var coolButton = element.querySelector('button');
+    coolButton.addEventListener('click', function (evt) {
+      main.removeChild(evt.target.parentElement.parentElement);
+    });
+    main.appendChild(element);
+  };
+
   var onEscClick = function (evt) {
     if (evt.keyCode === window.util.ESC_KEYCODE) {
       closePopup();
@@ -32,6 +45,11 @@
     });
     closePopupButton.addEventListener('click', function () {
       closePopup();
+    });
+    var photoForm = previewImageSection.querySelector('.img-upload__form');
+    photoForm.addEventListener('submit', function (evt) {
+      imageUpload();
+      evt.preventDefault();
     });
   };
 
