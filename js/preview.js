@@ -28,8 +28,7 @@
     }
   };
 
-  var tempOpenPhoto = function (index) {
-    var photo = window.data.photoArray[index];
+  var tempOpenPhoto = function (photo) {
     bigPicture.classList.remove('hidden');
     updatePhotoInfo(photo);
     var socialComments = bigPicture.querySelector('.social__comments');
