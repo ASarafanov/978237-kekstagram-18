@@ -34,7 +34,6 @@
     document.addEventListener('keydown', onEscCloseSuccessMenu);
 
     closePopup();
-    // var coolButton = element.querySelector('button');
     document.addEventListener('click', onMouseClick);
     main.appendChild(element);
   };

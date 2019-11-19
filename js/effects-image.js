@@ -12,8 +12,13 @@
   var levelLine = previewImageSection.querySelector('.effect-level__line');
   var effectLevel = previewImageSection.querySelector('.img-upload__effect-level');
   var effectLevelDepth = previewImageSection.querySelector('.effect-level__depth');
+  var effectNone = previewImageSection.querySelector('#effect-none');
+  var effectChrome = previewImageSection.querySelector('#effect-chrome');
+  var effectSepia = previewImageSection.querySelector('#effect-sepia');
+  var effectMarvin = previewImageSection.querySelector('#effect-marvin');
+  var effectPhobos = previewImageSection.querySelector('#effect-phobos');
+  var effectHeat = previewImageSection.querySelector('#effect-heat');
 
-  // Сделал правильное передвижение сразу
   var movePin = function (evt) {
     var rect = levelLine.getBoundingClientRect();
     var percentValue = (rect.right - rect.left) / 100;
@@ -58,12 +63,7 @@
         setPinPos(DEFAULT_INTENSITY);
       });
     };
-    var effectNone = previewImageSection.querySelector('#effect-none');
-    var effectChrome = previewImageSection.querySelector('#effect-chrome');
-    var effectSepia = previewImageSection.querySelector('#effect-sepia');
-    var effectMarvin = previewImageSection.querySelector('#effect-marvin');
-    var effectPhobos = previewImageSection.querySelector('#effect-phobos');
-    var effectHeat = previewImageSection.querySelector('#effect-heat');
+
 
     subscribe(effectNone, 'None');
     subscribe(effectChrome, 'Chrome');
@@ -116,6 +116,7 @@
   subscribeEvents();
 
   var reset = function () {
+    effectNone.checked = true;
     changeEffect('None', DEFAULT_INTENSITY);
   };
 
