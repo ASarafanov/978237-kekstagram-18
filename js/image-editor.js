@@ -3,6 +3,7 @@
 
 (function () {
   var URL = 'https://js.dump.academy/kekstagram';
+
   var previewImageSection = document.querySelector('.img-upload');
   var previewImage = previewImageSection.querySelector('.img-upload__preview');
   var imageEditorDiv = previewImageSection.querySelector('.img-upload__overlay');
@@ -10,9 +11,23 @@
   var closePopupButton = previewImageSection.querySelector('.img-upload__cancel');
   var photoForm = previewImageSection.querySelector('.img-upload__form');
   var main = document.querySelector('main');
+  var imageToUpload = previewImage.querySelector('img');
 
   var onMouseClick = function () {
     closeSuccessMenu();
+  };
+
+  var onImageLoaded = function (evt) {
+    imageToUpload.src = evt.target.result;
+  };
+
+  var showLoadedImage = function () {
+    var file = imageSelector.files[0];
+    var reader = new FileReader();
+    reader.addEventListener('load', onImageLoaded);
+    if (file) {
+      reader.readAsDataURL(file);
+    }
   };
 
   var closeSuccessMenu = function () {
@@ -57,6 +72,7 @@
     imageEditorDiv.classList.remove('hidden');
     document.addEventListener('keydown', onEscClick);
     reset();
+    showLoadedImage();
   };
 
   var closePopup = function () {

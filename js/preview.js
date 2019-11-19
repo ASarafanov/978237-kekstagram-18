@@ -15,7 +15,6 @@
   var templateComments = socialComments.querySelector('li');
 
   var showedCommentsCount = 0;
-
   var photo;
 
   var onCommentsLoaderClick = function () {

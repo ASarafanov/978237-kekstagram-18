@@ -2,13 +2,16 @@
 
 (function () {
   var URL = 'https://js.dump.academy/kekstagram/data';
+
   var filterSection = document.querySelector('.img-filters');
   var picturesBlock = document.querySelector('.pictures');
   var formSection = filterSection.querySelector('form');
   var popularButton = formSection.querySelector('#filter-popular');
   var randomButton = formSection.querySelector('#filter-random');
   var discussButton = formSection.querySelector('#filter-discussed');
+
   var photoArray;
+
   var showPhotos = function (photoData) {
     clearOldPhotos();
     photoArray = photoData;
