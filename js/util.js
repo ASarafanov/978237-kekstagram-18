@@ -4,6 +4,7 @@
 
   var ESC_KEYCODE = 27;
   var ENTER_KEYCODE = 13;
+  var DEBOUNCE_INTERVAL = 500;
 
   var getRandomInt = function (min, max) {
     var rand = min + Math.random() * (max + 1 - min);
@@ -38,11 +39,38 @@
     }
   };
 
+  var getCloneArray = function (array) {
+    return array.slice();
+  };
+
+  var shuffle = function (arr) {
+    var j;
+    var temp;
+    for (var i = arr.length - 1; i > 0; i--) {
+      j = Math.floor(Math.random() * (i + 1));
+      temp = arr[j];
+      arr[j] = arr[i];
+      arr[i] = temp;
+    }
+    return arr;
+  };
+
+  var lastTimeout;
+  var debounce = function (cb) {
+    if (lastTimeout) {
+      window.clearTimeout(lastTimeout);
+    }
+    lastTimeout = window.setTimeout(cb, DEBOUNCE_INTERVAL);
+  };
+
   window.util = {
     getRandomInt: getRandomInt,
     ESC_KEYCODE: ESC_KEYCODE,
     ENTER_KEYCODE: ENTER_KEYCODE,
-    showError: showError
+    showError: showError,
+    shuffle: shuffle,
+    getCloneArray: getCloneArray,
+    debounce: debounce
   };
 
 })();
