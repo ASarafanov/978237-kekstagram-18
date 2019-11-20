@@ -18,6 +18,7 @@
   var effectMarvin = previewImageSection.querySelector('#effect-marvin');
   var effectPhobos = previewImageSection.querySelector('#effect-phobos');
   var effectHeat = previewImageSection.querySelector('#effect-heat');
+  var effectValue = previewImageSection.querySelector('.effect-level__value');
 
   var movePin = function (evt) {
     var rect = levelLine.getBoundingClientRect();
@@ -83,6 +84,7 @@
     var filter = '';
     intensity = value;
     currentEffect = name;
+    effectValue.value = value;
     switch (name) {
       case 'None':
         filter = '';

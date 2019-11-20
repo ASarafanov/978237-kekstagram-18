@@ -26,6 +26,7 @@
   };
 
   var postData = function (data, url, onSuccessPost, onErrorPost) {
+    console.log(data);
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.timeout = TIMEOUT;

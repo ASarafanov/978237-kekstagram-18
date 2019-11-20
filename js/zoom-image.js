@@ -4,7 +4,7 @@
 
   var DEFAULT_SCALE = 100;
   var MAX_SCALE = 100;
-  var MIN_SCALE = 0;
+  var MIN_SCALE = 25;
   var STEP_SCALE = 25;
   var scale = DEFAULT_SCALE;
 

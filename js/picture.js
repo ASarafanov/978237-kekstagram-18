@@ -10,16 +10,15 @@
   var randomButton = formSection.querySelector('#filter-random');
   var discussButton = formSection.querySelector('#filter-discussed');
 
-  var photoArray;
+  var photosArray;
 
-  var showPhotos = function (photoData) {
+  var showPhotos = function (photosData) {
     clearOldPhotos();
-    photoArray = photoData;
+    photosArray = photosData;
     var template = document.querySelector('#picture');
     var content = template.content;
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < photoData.length; i++) {
-      var photo = photoData[i];
+    photosData.forEach(function (photo, index) {
       var element = content.cloneNode(true);
       var image = element.querySelector('.picture__img');
       image.src = photo.url;
@@ -27,10 +26,10 @@
       commentsSpan.textContent = photo.comments.length;
       var likesSpan = element.querySelector('.picture__likes');
       likesSpan.textContent = photo.likes;
-      subscribeToImageClick(i, element);
-      subscribeToImageEnter(i, element);
+      subscribeToImageClick(index, element);
+      subscribeToImageEnter(index, element);
       fragment.appendChild(element);
-    }
+    });
     picturesBlock.appendChild(fragment);
   };
 
@@ -50,13 +49,13 @@
 
   var subscribeToImageClick = function (index, element) {
     element.querySelector('img').addEventListener('click', function () {
-      window.preview.openPhoto(photoArray[index]);
+      window.preview.openPhoto(photosArray[index]);
     });
   };
 
   var onGetPhotoSuccess = function (photoData) {
-    photoArray = photoData;
-    showPhotos(photoArray);
+    photosArray = photoData;
+    showPhotos(photosArray);
 
     openFilters();
     window.pictures = {
@@ -100,9 +99,9 @@
 
   var clearOldPhotos = function () {
     var photosForDelete = picturesBlock.querySelectorAll('a');
-    for (var i = 0; i < photosForDelete.length; i++) {
-      picturesBlock.removeChild(photosForDelete[i]);
-    }
+    photosForDelete.forEach(function (photo) {
+      picturesBlock.removeChild(photo);
+    });
   };
 
   window.network.getData(URL, onGetPhotoSuccess, window.util.showError);

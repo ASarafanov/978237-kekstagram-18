@@ -97,6 +97,7 @@
   var reset = function () {
     window.effectsImage.reset();
     window.zoomImage.reset();
+    window.validation.reset();
   };
 
   subscribeToEvents();
