@@ -10,8 +10,6 @@
   var hashtagInput = previewImageSection.querySelector('.text__hashtags');
   var commentsInput = previewImageSection.querySelector('.text__description');
 
-
-
   var checkHashtagFirstSymbol = function (hashtag) {
     return hashtag[0] === '#';
   };
@@ -83,8 +81,8 @@
   };
 
   var reset = function () {
-    hashtagInput.value = "";
-    commentsInput.value = "";
+    hashtagInput.value = '';
+    commentsInput.value = '';
   };
 
   hashtagInput.addEventListener('input', function () {
